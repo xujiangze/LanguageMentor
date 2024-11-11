@@ -44,7 +44,7 @@ with gr.Blocks(title="LanguageMentor 英语私教") as language_mentor_app:
         )
 
         gr.ChatInterface(
-            fn=handle_conversation, 
+            fn=handle_conversation,
             chatbot=conversation_chatbot,
             retry_btn=None,
             undo_btn=None,
@@ -59,7 +59,7 @@ with gr.Blocks(title="LanguageMentor 英语私教") as language_mentor_app:
             placeholder="<strong>你的英语私教 DjangoPeng</strong><br><br>选择场景后开始对话吧！",
             height=800,
         )
-        
+
         # 场景聊天界面
         gr.ChatInterface(
             fn=handle_scenario,
@@ -72,5 +72,5 @@ with gr.Blocks(title="LanguageMentor 英语私教") as language_mentor_app:
         )
 
 if __name__ == "__main__":
-    language_mentor_app.launch(share=True, server_name="0.0.0.0")
+    language_mentor_app.launch(share=False, server_name="0.0.0.0")
 
