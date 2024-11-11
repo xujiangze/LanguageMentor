@@ -2,14 +2,18 @@ import gradio as gr  # 导入 Gradio 库，用于构建用户界面
 from agents.conversation_agent import ConversationAgent  # 导入对话代理类
 from agents.scenario_agent import ScenarioAgent  # 导入场景代理类
 from utils.logger import LOG  # 导入日志记录工具
+from config.config import Config  # 导入配置类
+
+global_config = Config('src/config/config_test.yaml')
+# global_config = Config('src/config/config.yaml')
 
 # 创建对话代理实例
 conversation_agent = ConversationAgent()
 
 # 定义场景代理的选择与调用
 agents = {
-    "job_interview": ScenarioAgent("job_interview"),  # 求职面试场景代理
-    "hotel_checkin": ScenarioAgent("hotel_checkin"),  # 酒店入住场景代理
+    "job_interview": ScenarioAgent("job_interview", global_config),  # 求职面试场景代理
+    "hotel_checkin": ScenarioAgent("hotel_checkin", global_config),  # 酒店入住场景代理
     # "salary_negotiation": ScenarioAgent("salary_negotiation"),  # 薪资谈判场景代理（注释掉）
     # "renting": ScenarioAgent("renting")  # 租房场景代理（注释掉）
 }
@@ -44,7 +48,8 @@ with gr.Blocks(title="LanguageMentor 英语私教") as language_mentor_app:
                 ("酒店入住", "hotel_checkin"),  # 酒店入住选项
                 # ("薪资谈判", "salary_negotiation"),  # 薪资谈判选项（注释掉）
                 # ("租房", "renting")  # 租房选项（注释掉）
-            ], 
+            ],
+            value="job_interview",  # 默认选中的场景
             label="场景"  # 单选框标签
         )
 
@@ -99,4 +104,4 @@ with gr.Blocks(title="LanguageMentor 英语私教") as language_mentor_app:
 
 # 启动应用
 if __name__ == "__main__":
-    language_mentor_app.launch(share=True, server_name="0.0.0.0")  # 启动 Gradio 应用并共享
+    language_mentor_app.launch(share=False, server_name="0.0.0.0")  # 启动 Gradio 应用并共享
