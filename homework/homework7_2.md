@@ -118,3 +118,8 @@ docker-compose -f docker-compose.yml up
 
 外部效果:
 ![img.png](images/homework_7_2_外部使用效果.png)
+
+7.好处说明
+- 外部挂载的配置文件, 可以动态的调整配置, 以适应不同的场景, 例如代理环境, prompt等配置
+- 大模型的机器并不总是和应用部署在同一个机器上, 因此这种方式更加灵活
+- docker-compose.yaml的配置作为非k8s下的较好的生产部署模式案例, 值得推广.
