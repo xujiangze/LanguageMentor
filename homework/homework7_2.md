@@ -52,6 +52,10 @@ COPY . /app
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 # 设置环境变量
 ENV PYTHONUNBUFFERED=1
+
+# 执行单测
+# RUN python -m unittest discover -s src/test -p "*_test.py"
+
 # 暴露应用端口, 这是默认的gradio的端口
 EXPOSE 7860
 # 运行应用
