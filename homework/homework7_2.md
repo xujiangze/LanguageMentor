@@ -95,7 +95,18 @@ services:
 
 5. 修改启动前配置
 根据需要修改你的启动配置 src/config/config.yaml 和 src/config/prompts
-
+eg:
+src/config/config.yaml
+诸如下述是代理配置方案. 使用openai/gpt-4o-mini模型
+```
+llm:
+  llm_type: openai
+  model: gpt-4o-mini
+  max_tokens: 8192
+  temperature: 0.8
+  api_key: "你的代理sk"
+  base_url: "https://转发代理域名/v1"
+```
 6. 启动
 ```bash
 docker-compose -f docker-compose.yml up
