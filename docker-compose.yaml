@@ -1,0 +1,14 @@
+version: '3'
+services:
+  language_mentor:
+    image: language_mentor:0.5
+    ports:
+      - "7860:7860"
+    volumes:
+      # llm文件挂在
+      - ./src/config/config.yaml:/app/src/config/config.yaml:ro
+      # prompt文件挂载
+      - ./src/config/prompts:/app/src/config/prompts:ro
+
+    # 跑应用
+    command: python src/main.py

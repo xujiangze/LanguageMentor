@@ -8,6 +8,9 @@ from langchain_core.runnables.history import RunnableWithMessageHistory  # 导�
 
 from .session_history import get_session_history  # 导入会话历史相关方法
 from utils.logger import LOG  # 导入日志工具
+from config.config import global_config
+from llm.llm_gen import llm_gen
+
 
 class AgentBase(ABC):
     """
@@ -20,7 +23,8 @@ class AgentBase(ABC):
         self.session_id = session_id if session_id else self.name
         self.prompt = self.load_prompt()
         self.intro_messages = self.load_intro() if self.intro_file else []
-        self.create_chatbot()
+        llm_client = llm_gen(global_config)
+        self.create_chatbot(llm_client)
 
     def load_prompt(self):
         """
@@ -44,7 +48,7 @@ class AgentBase(ABC):
         except json.JSONDecodeError:
             raise ValueError(f"初始消息文件 {self.intro_file} 包含无效的 JSON!")
 
-    def create_chatbot(self):
+    def create_chatbot(self, llm_client):
         """
         初始化聊天机器人，包括系统提示和消息历史记录。
         """
@@ -55,11 +59,7 @@ class AgentBase(ABC):
         ])
 
         # 初始化 ChatOllama 模型，配置参数
-        self.chatbot = system_prompt | ChatOllama(
-            model="llama3.1:8b-instruct-q8_0",  # 使用的模型名称
-            max_tokens=8192,  # 最大生成的 token 数
-            temperature=0.8,  # 随机性配置
-        )
+        self.chatbot = system_prompt | llm_client
 
         # 将聊天机器人与消息历史记录关联
         self.chatbot_with_history = RunnableWithMessageHistory(self.chatbot, get_session_history)
